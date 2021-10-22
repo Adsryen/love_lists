@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="ie6 ielt8 ielt9"><![endif]-->
+<!--[if IE 7]><html class="ie7 ielt8 ielt9"><![endif]-->
+<!--[if IE 8]><html class="ie8 ielt9"><![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html>
+<!--<![endif]-->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#ff557d">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <title>我们的恋爱清单</title>
+    <link href="asset/css/xiang.ai.css" rel="stylesheet">
+    <link rel="icon" href="icon.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="icon.png" type="image/x-icon" />
+    <script src="asset/js/jquery.js"></script>
+    <script src="asset/js/common.js"></script>
+
+    <script type="text/javascript">
+        function UploadCallback(ret, id, imgurl) {
+            $(function() {
+                console.log(imgurl)
+                var formid = '#event-form-' + id;
+                var $form = $(formid);
+                var $img = $form.find('.img');
+                var timestamp = Date.parse(new Date());
+                var cssImg = 'background-image:url(/' + imgurl + '?' + timestamp + ');'
+                $img.attr('style', cssImg).find('input').val(imgurl);
+            })
+            return;
+        }
+    </script>
+
+</head>
+
+<body>
+    <div class="header">
+        <h1 class="logo" role="text"><a href="" title="lovelist" role="link"><span class="ico"><span class='ie8-hide'>恋爱</span></span><span class="txt">清单</span></a></h1>
+        <p class="lover-info">
+            <span class="lover-image">
+	    			<a href="javascript:window.open('http://prlrr.com/');" class="lover" style="background-image: url(asset/images/boy.jpg);" title="彭先生"><span class="ie8-hide">彭先生</span></a>
+            <i class="icon-heart"></i>
+            <a href="javascript:window.open('#');" class="lover" style="background-image: url(asset/images/girl.jpg);" title="然然"><span class="ie8-hide">然然</span></a>
+            </span>
+            <span class="lover-date">相恋 <span class="days"> <span id="runtime_span"></span> </span> 天</span>
+        </p>
+        <p class="description">我们的恋爱清单，无数件充满爱的事记录我们的相恋历程，相信我们还会留下更多美好的回忆。
+            <!-- <a href="index1.html">祝福我们</a> --></p>
+
+        <script type="text/javascript">
+            function show_runtime() {
+                window.setTimeout("show_runtime()", 1000);
+                X = new Date("2016/11/2 22:53:03");
+                Y = new Date();
+                T = (Y.getTime() - X.getTime());
+                M = 24 * 60 * 60 * 1000;
+                a = T / M;
+                A = Math.floor(a);
+                b = (a - A) * 24;
+                B = Math.floor(b);
+                c = (b - B) * 60;
+                C = Math.floor((b - B) * 60);
+                D = Math.floor((c - C) * 60);
+                runtime_span.innerHTML = "" + A + "天" + B + "时" + C + "分" + D + "秒"
+            }
+            show_runtime();
+        </script>
+    </div>
+
+    <div class="mainer" role="main">
+
+        <form action="?login" class="form form-login none" method="post">
+            <p class="field"><span class="flex-input"><span class="flex-input-inner"><input type="text" name="user" placeholder="用户名"></span></span>
+            </p>
+            <p class="field"><span class="flex-input"><span class="flex-input-inner"><input type="password" name="pass" placeholder="密码"></span></span>
+            </p>
+            <p class="action"><button class="btn-login" type="submit">登录管理</button></p>
+        </form>
+
+        <div class="event-list ">
+            <!-- event doing 改为event done ，即可显示完成，php可视化操作正在开发 -->
+            <div class='event done'><span class='event-order' role='text'><span class='order-txt'>第</span><span class='order-num'>1</span><span class='order-txt'>件事</span></span><span class='event-state'><span class='txt'>已达成</span></span>
+                <h2 class='event-title'>一起制作该清单（强制置顶）</h2>
+                <div class='event-detail'>
+                    <p class='event-image'><span class='img' style='background-image:url(asset/images/event/1.jpg);'></span></p>
+                    <p class='event-remark'>我做站，你做内容，说定了</p>
+                    <br>
+                    <p class='event-list'>添加于 : <a>2021年9月</a></p>
+                    <p class='event-list'>完成于 :
+                        <a></a>
+                    </p>
+                </div>
+            </div>
+            <?php foreach($lists as $k => $value):?>
+            <div class="<?php echo $value['list_status_class'];?>"><span class="event-order" role="text"><span class="order-txt">第</span><span class="order-num"><?php echo $k + 2;?></span><span class="order-txt">件事</span></span><span class="event-state"><span class="txt"><?php echo $value['event_state'];?></span></span>
+                <h2 class="event-title">
+                    <?php echo $value['list_name'];?>
+                </h2>
+                <div class="event-detail">
+                    <p class="event-image"><span><img  class="img" src="<?php echo $value['pic_fengmian_path'];?>" height="80%" width="80%"></img></span></p>
+
+                    <p class="event-remark">
+                        <?php echo $value['content'];?>
+                    </p>
+                    <br>
+                    <p class='event-list'>添加于 :
+                        <a>
+                            <?php echo date('Y年m月d日 H时i分s秒',$value['add_time']);?>
+                        </a>
+                    </p>
+                    <p class='event-list'>完成于 :
+                        <a>
+                            <?php echo date('Y年m月d日 H时i分s秒',$value['done_time']);?>
+                        </a>
+                    </p>
+                    <br>
+                    <div class="event-list ">
+                        <p><a href="edit.php?id=<?php echo $value['id'];?>">修改该行</a></p>
+                    </div>
+                    <div class="event-list ">
+                        <p><a href="delete.php?id=<?php echo $value['id'];?>" onclick="return confirm('是否确定删除当前行项目？');">删除该行</a></p>
+                    </div>
+                </div>
+            </div>
+            <?php endforeach;?>
+            <!-- <div class='event doing'><span class='event-order' role='text'><span class='order-txt'>第</span><span class='order-num'>2</span><span class='order-txt'>件事</span></span><span class='event-state'><span class='txt'>已达成</span></span>
+                <h2 class='event-title'>一起看日落</h2>
+                <div class='event-detail'>
+                    <p class='event-image'><span class='img' style='background-image:url(asset/images/event/2.jpg);'></span></p>
+                    <p class='event-remark'>事件完成的时间、地点以及心情描述。</p>
+                </div>
+            </div> -->
+        </div>
+        <br>
+        <div class="event-list ">
+            <p><a href="./add.html">添加清单行项目</a></p>
+        </div>
+
+    </div>
+    <div class="footer">
+        <p></p>2019 - 2021 © <a href="http//www.prlrr.com/" target="_blank">知识就是力量</a>• Built with <a href="https://lovelist.us/" class="customize-unpreviewable">LOVELIST.US  </a> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 备案号：
+        <a href="http://beian.miit.gov.cn/" target="_blank">蜀ICP备19013865号</a></p>
+    </div>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?d7a8f5f1abe50ca8a0eb8077ed39e37f";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+</body>
+
+</html>
